@@ -473,6 +473,7 @@ export class SliderComponent
   public setDisabledState(isDisabled: boolean): void {
     this.viewOptions.disabled = isDisabled;
     this.updateDisabledState();
+    this.manageEventsBindings();
   }
 
   public setAriaLabel(ariaLabel: string): void {
