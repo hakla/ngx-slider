@@ -1,6 +1,6 @@
 {
   "name": "@hakla/ngx-slider",
-  "version": "16.0.2",
+  "version": "16.0.3",
   "private": true,
   "description": "Self-contained, mobile friendly slider component for Angular 14/15/16 based on angularjs-slider",
   "keywords": [
