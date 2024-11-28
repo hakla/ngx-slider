@@ -15,6 +15,14 @@ export class ReactiveFormSimpleSliderComponent {
     ceil: 250,
   };
 
+  disable(): void {
+    this.sliderControl.disable();
+  }
+
+  enable(): void {
+    this.sliderControl.enable();
+  }
+
   resetForm(): void {
     this.sliderControl.reset(100);
   }
