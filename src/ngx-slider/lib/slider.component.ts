@@ -114,10 +114,12 @@ class ModelChange extends ModelValues {
 }
 
 class InputModelChange extends ModelChange {
+  controlAccessorChange: boolean;
   internalChange: boolean;
 }
 
 class OutputModelChange extends ModelChange {
+  controlAccessorChange: boolean;
   userEventInitiated: boolean;
 }
 
@@ -430,6 +432,7 @@ export class SliderComponent
       this.inputModelChangeSubject.next({
         value: this.value,
         highValue: this.highValue,
+        controlAccessorChange: false,
         forceChange: false,
         internalChange: false,
       });
@@ -462,6 +465,7 @@ export class SliderComponent
       highValue: this.highValue,
       forceChange: false,
       internalChange: false,
+      controlAccessorChange: true,
     });
   }
 
@@ -639,6 +643,7 @@ export class SliderComponent
     this.outputModelChangeSubject.next({
       value: this.value,
       highValue: this.highValue,
+      controlAccessorChange: false,
       userEventInitiated: true,
       forceChange: false,
     });
@@ -650,6 +655,7 @@ export class SliderComponent
     this.inputModelChangeSubject.next({
       value: this.value,
       highValue: this.highValue,
+      controlAccessorChange: false,
       forceChange: false,
       internalChange: true,
     });
@@ -695,6 +701,7 @@ export class SliderComponent
     this.outputModelChangeSubject.next({
       value: normalisedModelChange.value,
       highValue: normalisedModelChange.highValue,
+      controlAccessorChange: modelChange.controlAccessorChange,
       forceChange: normalisationChange,
       userEventInitiated: false,
     });
@@ -706,6 +713,12 @@ export class SliderComponent
       this.valueChange.emit(modelChange.value);
       if (this.range) {
         this.highValueChange.emit(modelChange.highValue);
+      }
+
+      // If this change is coming from a control accessor (i.e. angular called `writeValue`)
+      // then we do not want to call the angular callbacks.
+      if (modelChange.controlAccessorChange) {
+        return;
       }
 
       if (!ValueHelper.isNullOrUndefined(this.onChangeCallback)) {
@@ -818,6 +831,7 @@ export class SliderComponent
       this.outputModelChangeSubject.next({
         value: this.value,
         highValue: this.highValue,
+        controlAccessorChange: false,
         forceChange: true,
         userEventInitiated: false,
       });
